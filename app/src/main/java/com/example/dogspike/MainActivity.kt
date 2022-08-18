@@ -8,8 +8,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
@@ -19,8 +21,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val recyclerView: RecyclerView = findViewById(R.id.rv_main)
-        recyclerView.layoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
+        recyclerView.layoutManager = layoutManager
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

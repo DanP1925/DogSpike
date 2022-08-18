@@ -2,14 +2,20 @@ package com.example.dogspike
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.dogspike.data.DogsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.io.IOException
+import javax.inject.Inject
 
-class MainViewModel() : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    repository: DogsRepository
+) : ViewModel() {
 
     private val _dogsUrls = MutableStateFlow(listOf<String>())
     val dogsUrls: StateFlow<List<String>> = _dogsUrls
@@ -20,18 +26,7 @@ class MainViewModel() : ViewModel() {
         fetchJob?.cancel()
         fetchJob = viewModelScope.launch {
             try {
-                //TODO: Replace this with data from the server
-                val dogs = mutableListOf(
-                    "https://images.dog.ceo/breeds/poodle-miniature/n02113712_1077.jpg",
-                    "https://images.dog.ceo/breeds/spaniel-cocker/n02102318_3700.jpg",
-                    "https://images.dog.ceo/breeds/stbernard/n02109525_3346.jpg",
-                    "https://images.dog.ceo/breeds/chihuahua/n02085620_3928.jpg",
-                    "https://images.dog.ceo/breeds/shihtzu/n02086240_415.jpg",
-                    "https://images.dog.ceo/breeds/retriever-chesapeake/n02099849_3346.jpg",
-                    "https://images.dog.ceo/breeds/spaniel-japanese/n02085782_1774.jpg",
-                    "https://images.dog.ceo/breeds/germanshepherd/n02106662_19791.jpg",
-                    "https://images.dog.ceo/breeds/terrier-dandie/n02096437_1656.jpg"
-                )
+                val dogs = repository.getDogsUrls()
                 _dogsUrls.update {
                     dogs
                 }
