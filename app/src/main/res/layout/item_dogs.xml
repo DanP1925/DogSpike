@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/item_dog_photo"
         android:layout_width="match_parent"
-        android:minHeight="100dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:minHeight="100dp" />
 
-</FrameLayout>
+    <ProgressBar
+        android:id="@+id/item_dog_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+</RelativeLayout>
