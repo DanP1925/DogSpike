@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Transformation
 
-class DogsAdapter(private val dogsUrls: List<String>) :
+class DogsAdapter(private val dogsUrls: List<String>, private val imageWidth: Int) :
     RecyclerView.Adapter<DogsAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -19,32 +19,11 @@ class DogsAdapter(private val dogsUrls: List<String>) :
             imageView = view.findViewById(R.id.item_dog_photo)
         }
 
-        fun bind(url: String) {
-            val transformation = object : Transformation {
-                override fun transform(source: Bitmap): Bitmap {
-                    val targetWidth: Int = imageView.width
-                    val aspectRatio: Double = (source.height.toDouble() / source.width.toDouble())
-                    val targetHeight: Int = (targetWidth * aspectRatio).toInt()
-                    val result: Bitmap =
-                        Bitmap.createScaledBitmap(source, targetWidth, targetHeight, false)
-                    if (result != source) {
-                        source.recycle()
-                    }
-                    return result
-                }
-
-                override fun key(): String {
-                    return "transformation" + "desiredHeight"
-                }
-            }
-
-            imageView.viewTreeObserver.addOnGlobalLayoutListener {
-                //TODO: Add placeholder and error images
-                Picasso.get()
-                    .load(url)
-                    .transform(transformation)
-                    .into(imageView)
-            }
+        fun bind(url: String, imageWidth: Int) {
+            Picasso.get()
+                .load(url)
+                .resize(imageWidth, 0)
+                .into(imageView)
         }
 
     }
@@ -55,7 +34,7 @@ class DogsAdapter(private val dogsUrls: List<String>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(dogsUrls[position])
+        holder.bind(dogsUrls[position], imageWidth)
     }
 
     override fun getItemCount() = dogsUrls.size

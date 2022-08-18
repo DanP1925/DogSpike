@@ -1,5 +1,6 @@
 package com.example.dogspike
 
+import android.graphics.Point
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -25,10 +26,15 @@ class MainActivity : AppCompatActivity() {
         layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
         recyclerView.layoutManager = layoutManager
 
+        val size = Point()
+        val display = windowManager.defaultDisplay
+        display.getSize(size)
+        val width = size.x / 2
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.dogsUrls.collect{
-                    val adapter = DogsAdapter(it)
+                    val adapter = DogsAdapter(it,width)
                     recyclerView.adapter = adapter
                 }
             }
