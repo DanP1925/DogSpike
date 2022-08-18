@@ -39,6 +39,7 @@ class DogsAdapter(private val dogsUrls: List<String>) :
             }
 
             imageView.viewTreeObserver.addOnGlobalLayoutListener {
+                //TODO: Add placeholder and error images
                 Picasso.get()
                     .load(url)
                     .transform(transformation)
