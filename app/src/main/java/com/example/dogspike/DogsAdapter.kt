@@ -1,13 +1,11 @@
 package com.example.dogspike
 
-import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import com.squareup.picasso.Transformation
 
 class DogsAdapter(private val dogsUrls: List<String>, private val imageWidth: Int) :
     RecyclerView.Adapter<DogsAdapter.ViewHolder>() {

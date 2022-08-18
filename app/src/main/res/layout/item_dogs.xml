@@ -6,6 +6,7 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/item_dog_photo"
         android:layout_width="match_parent"
+        android:minHeight="100dp"
         android:layout_height="wrap_content" />
 
 </FrameLayout>
