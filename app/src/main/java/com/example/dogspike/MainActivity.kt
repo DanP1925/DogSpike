@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
+    private var isFirstTime: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +35,11 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.dogsUrls.collect{
-                    val adapter = DogsAdapter(it,width)
-                    recyclerView.adapter = adapter
+                    if (isFirstTime && it.isNotEmpty()){
+                        isFirstTime = false
+                        val adapter = DogsAdapter(it,width)
+                        recyclerView.adapter = adapter
+                    }
                 }
             }
         }
